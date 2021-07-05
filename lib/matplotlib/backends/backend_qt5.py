@@ -155,7 +155,7 @@ def _allow_super_init(__init__):
             next_coop_init = next(
                 cls for cls in mro[mro.index(QtWidgets.QWidget) + 1:]
                 if cls.__module__.split(".")[0] not in [
-                    "PyQt4", "sip", "PySide", "PySide2", "Shiboken"])
+                    "PyQt4", "sip", "PySide", "PySide2","PySide6", "Shiboken"])
             next_coop_init.__init__(self, *args, **kwargs)
 
         @functools.wraps(__init__)
@@ -202,7 +202,7 @@ class FigureCanvasQT(QtWidgets.QWidget, FigureCanvasBase):
 
     # map Qt button codes to MouseEvent's ones:
     buttond = {QtCore.Qt.LeftButton: MouseButton.LEFT,
-               QtCore.Qt.MidButton: MouseButton.MIDDLE,
+               QtCore.Qt.MiddleButton: MouseButton.MIDDLE,
                QtCore.Qt.RightButton: MouseButton.RIGHT,
                QtCore.Qt.XButton1: MouseButton.BACK,
                QtCore.Qt.XButton2: MouseButton.FORWARD,

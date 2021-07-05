@@ -26,6 +26,7 @@ QT_API_PYQT5 = "PyQt5"
 QT_API_PYSIDE2 = "PySide2"
 QT_API_PYQTv2 = "PyQt4v2"
 QT_API_PYSIDE = "PySide"
+QT_API_PYSIDE6 = "PySide6"
 QT_API_PYQT = "PyQt4"   # Use the old sip v1 API (Py3 defaults to v2).
 QT_API_ENV = os.environ.get("QT_API")
 if QT_API_ENV is not None:
@@ -87,6 +88,10 @@ def _setup_pyqt5():
         from PySide2 import QtCore, QtGui, QtWidgets, __version__
         import shiboken2
         def _isdeleted(obj): return not shiboken2.isValid(obj)
+    elif QT_API == QT_API_PYSIDE6:
+        from PySide6 import QtCore, QtGui, QtWidgets, __version__
+        import shiboken6
+        def _isdeleted(obj): return not shiboken6.isValid(obj)
     else:
         raise ValueError("Unexpected value for the 'backend.qt5' rcparam")
     _getSaveFileName = QtWidgets.QFileDialog.getSaveFileName
@@ -164,7 +169,8 @@ elif QT_API is None:  # See above re: dict.__getitem__.
                        (_setup_pyqt5, QT_API_PYQT5),
                        (_setup_pyqt5, QT_API_PYSIDE2)]
     else:
-        _candidates = [(_setup_pyqt5, QT_API_PYQT5),
+        _candidates = [(_setup_pyqt5, QT_API_PYSIDE6),
+                       (_setup_pyqt5, QT_API_PYQT5),
                        (_setup_pyqt5, QT_API_PYSIDE2),
                        (_setup_pyqt4, QT_API_PYQTv2),
                        (_setup_pyqt4, QT_API_PYSIDE),
